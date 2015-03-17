@@ -7,6 +7,7 @@ import org.apache.commons.math.distribution.GammaDistribution;
 import org.apache.commons.math.distribution.GammaDistributionImpl;
 
 import beast.core.Description;
+import beast.core.Function;
 import beast.core.Input;
 import beast.core.Loggable;
 import beast.core.Input.Validate;
@@ -17,7 +18,7 @@ import beast.evolution.tree.Tree;
 import beast.math.distributions.ParametricDistribution;
 
 @Description("Uncorrelated Relaxed Gamma site model that allows different shape parameters for each branche")
-public class RelaxedGammaSiteModel extends SiteModel implements Loggable {
+public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Function  {
 	//public Input<RealParameter> shapesParameterInput = new Input<RealParameter>("shapes", "array of shapes, one for each branch", Validate.REQUIRED);
 
 	public Input<ParametricDistribution> rateDistInput = new Input<ParametricDistribution>("distr", 
@@ -329,5 +330,21 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable {
 	@Override
 	public void close(PrintStream out) {
 		// nothing to do
+	}
+
+	@Override
+	public int getDimension() {
+		return tree.getNodeCount();
+	}
+
+	@Override
+	public double getArrayValue() {
+		return 0;
+	}
+
+	@Override
+	public double getArrayValue(int iDim) {
+		Node [] node = tree.getNodesAsArray();
+		return getShapeParameterForBranch(node[iDim]);
 	}
 }

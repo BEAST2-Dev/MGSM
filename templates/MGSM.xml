@@ -57,7 +57,6 @@
                 <shapes              spec='parameter.RealParameter' id='MGSMgammaShape.s:$(n)' value='1.0'         estimate='true'/>
             </plugin>
 	    	        
-            <distribution id='MGSMMultiGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@MGSMgammaShape.s:$(n)" tree="@Tree.t:$(n)"/>
             <prior id='MGSMMutationRatePrior.s:$(n)' x='@MGSMMutationRate.s:$(n)'><distr spec="OneOnX"/></prior>
             <prior id='MGSMGammaShapePrior.s:$(n)' x='@MGSMgammaShape.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='1'/></prior>
 
@@ -65,6 +64,8 @@
             <operator id='MGSMMutationRateScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@MGSMMutationRate.s:$(n)"/>
             <operator id='MGSMgammaShapeScaler1.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="5.0" parameter="@MGSMgammaShape.s:$(n)" scaleAll="false"/>
             <operator id='MGSMgammaShapeScaler2.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.5" parameter="@MGSMgammaShape.s:$(n)" scaleAll="true"/>
+
+            <distribution id='MGSMMultiGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@MGSMgammaShape.s:$(n)" tree="@Tree.t:$(n)"/>
             ]]>
 
             <connect srcID='MGSMMutationRatePrior.s:$(n)'         targetID='prior' inputName='distribution' if='nooperator(FixMeanMutationRatesOperator) and inlikelihood(MGSMMutationRate.s:$(n)) and MGSMMutationRate.s:$(n)/estimate=true'/>
@@ -88,6 +89,7 @@
             <connect srcID='MGSMGammaShapePrior.s:$(n)'           targetID='prior' inputName='distribution' if='inlikelihood(MGSMgammaShape.s:$(n)) and MGSMgammaShape.s:$(n)/estimate=true'>Prior on gamma shape for partition s:$(n)</connect>
             <connect srcID='MGSMPropInvariantPrior.s:$(n)'        targetID='prior' inputName='distribution' if='inlikelihood(MGSMproportionInvariant.s:$(n)) and MGSMproportionInvariant.s:$(n)/estimate=true'>Prior on proportion invariant for partition s:$(n)</connect>
 
+            <connect srcID='MGSMgammaShape.s:$(n)'                targetID='TreeWithMetaDataLogger.t:$(n)' inputName='metadata' if='inlikelihood(MultiGammaSiteModel.s:$(n))'/>
         </subtemplate>
 
 
@@ -103,7 +105,7 @@
 
             <parameter id="RGSMucldMeanGamma.s:$(n)" name="stateNode">1.0</parameter>
             <parameter id="RGSMucldStdevGamma.s:$(n)" lower="0.0" name="stateNode" upper="5.0">0.5</parameter>
-            <stateNode dimension="100" id="RGSMrateCategoriesGamma.s:$(n)" spec="parameter.IntegerParameter">1</stateNode>
+            <stateNode dimension="100" id="RGSMrateCategoriesGamma.s:$(n)" spec="parameter.IntegerParameter" value="1"/>
             
             <plugin spec='RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)">
                 <!--substModel will be automatically detected /-->
@@ -112,9 +114,9 @@
                 <LogNormal id="LogNormalDistributionModelGamma.c:atpB_3" name="distr" S="@RGSMucldStdevGamma.s:$(n)" M="@RGSMucldMeanGamma.s:$(n)" meanInRealSpace="true"/>
             </plugin>
 	    	        
-            <distribution id='RelaxedGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)"/>
             <prior id='RGSMMutationRatePrior.s:$(n)' x='@RGSMmutationRate.s:$(n)'><distr spec="OneOnX"/></prior>
-            <prior id='RGSMGammaShapePrior.s:$(n)' x='@RGSMgammaShape.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='1'/></prior>
+            <prior id='RGSMMeanPrior.s:$(n)' x='@RGSMucldMeanGamma.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='1'/></prior>
+            <prior id='RGSMStdDevPrior.s:$(n)' x='@RGSMucldStdevGamma.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='0.33'/></prior>
 
             <operator id='RGSMproportionInvariantScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@RGSMproportionInvariant.s:$(n)"/>
             <operator id='RGSMmutationRateScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@RGSMmutationRate.s:$(n)"/>
@@ -124,6 +126,8 @@
             <operator id="RGSMCategoriesRandomWalkGamma.s:$(n)" spec="IntRandomWalkOperator" parameter="@RGSMrateCategoriesGamma.s:$(n)" weight="10.0" windowSize="1"/>
             <operator id="RGSMCategoriesSwapGammaOperator.s:$(n)" spec="SwapOperator" intparameter="@RGSMrateCategoriesGamma.s:$(n)" weight="10.0"/>
             <operator id="RGSMCategoriesUniformGamma.s:$(n)" spec="UniformOperator" parameter="@RGSMrateCategoriesGamma.s:$(n)" weight="10.0"/>
+
+            <distribution id='RelaxedGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)"/>
             ]]>
 
             <connect srcID='RGSMMutationRatePrior.s:$(n)'           targetID='prior' inputName='distribution' if='nooperator(FixMeanMutationRatesOperator) and inlikelihood(RGSMmutationRate.s:$(n)) and RGSMmutationRate.s:$(n)/estimate=true'/>
@@ -134,8 +138,9 @@
             <connect srcID='RGSMucldStdevGamma.s:$(n)'              targetID='state' inputName='stateNode' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'/>
             <connect srcID='RGSMrateCategoriesGamma.s:$(n)'         targetID='state' inputName='stateNode' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'/>
 
-            <connect srcID='RelaxedGammaSiteModelPrior.s:$(n)'      targetID='prior' inputName='distribution' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'>Prior on gamma shape for partition s:$(n)</connect>
-            <connect srcID='RGSMGammaShapePrior.s:$(n)'             targetID='prior' inputName='distribution' if='inlikelihood(RGSMgammaShape.s:$(n)) and RGSMgammaShape.s:$(n)/estimate=true'>Prior on gamma shape for partition s:$(n)</connect>
+            <connect srcID='RelaxedGammaSiteModelPrior.s:$(n)'      targetID='prior' inputName='distribution' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'>Prior on RGSM root branches for partition s:$(n)</connect>
+            <connect srcID='RGSMMeanPrior.s:$(n)'                   targetID='prior' inputName='distribution' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'>Prior on mean of RGSM for partition s:$(n)</connect>
+            <connect srcID='RGSMStdDevPrior.s:$(n)'                 targetID='prior' inputName='distribution' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'>Prior on stddev of RGSM for partition s:$(n)</connect>
             <connect srcID='RGSMPropInvariantPrior.s:$(n)'          targetID='prior' inputName='distribution' if='inlikelihood(RGSMproportionInvariant.s:$(n)) and RGSMproportionInvariant.s:$(n)/estimate=true'>Prior on proportion invariant for partition s:$(n)</connect>
 
             <connect srcID='RGSMproportionInvariantScaler.s:$(n)'   targetID='mcmc' inputName='operator' if='inlikelihood(RGSMproportionInvariant.s:$(n)) and RGSMproportionInvariant.s:$(n)/estimate=true'>Scales proportion of invariant sites parameter of partition $(n)</connect>
@@ -152,6 +157,7 @@
             <connect srcID='RGSMucldMeanGamma.s:$(n)'               targetID='tracelog' inputName='log' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'/>
             <connect srcID='RGSMucldStdevGamma.s:$(n)'              targetID='tracelog' inputName='log' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'/>
 
+            <connect srcID='RelaxedGammaSiteModel.s:$(n)'              targetID='TreeWithMetaDataLogger.t:$(n)' inputName='metadata' if='inlikelihood(RelaxedGammaSiteModel.s:$(n))'/>
 
         </subtemplate>
         

@@ -214,11 +214,11 @@
 		<copy todir="${Add_on_dir}">
 			<fileset file="${distmsgm}/MSGM.src.jar" />
 		</copy>
-<!--
+
 		<copy todir="${Add_on_dir}/templates">
 			<fileset file="templates/MGSM.xml" />
 		</copy>
--->
+		
 		<jar jarfile="${distmsgm}/MSGM.addon.v${version}.zip">
 			<fileset dir="${Add_on_dir}">
 				<include name="**/*" />
