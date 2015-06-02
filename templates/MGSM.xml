@@ -67,7 +67,7 @@
             
             <plugin spec='RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)">
                 <!--substModel will be automatically detected /-->
-                <proportionInvariant spec='parameter.RealParameter' id='RGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='false'/>
+                <proportionInvariant spec='parameter.RealParameter' id='RGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='true'/>
                 <mutationRate        spec='parameter.RealParameter' id='RGSMmutationRate.s:$(n)' value='1.0'        estimate='false'/>
                 <LogNormal id="LogNormalDistributionModelGamma.c:atpB_3" name="distr" S="@RGSMucldStdevGamma.s:$(n)" M="@RGSMucldMeanGamma.s:$(n)" meanInRealSpace="true"/>
             </plugin>
