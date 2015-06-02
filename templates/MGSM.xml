@@ -65,7 +65,7 @@
             <parameter id="RGSMucldStdevGamma.s:$(n)" lower="0.0" name="stateNode" upper="5.0">0.5</parameter>
             <stateNode dimension="100" id="RGSMrateCategoriesGamma.s:$(n)" spec="parameter.IntegerParameter" value="1"/>
             
-            <plugin spec='RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)">
+            <plugin spec='RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)">
                 <!--substModel will be automatically detected /-->
                 <proportionInvariant spec='parameter.RealParameter' id='RGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='false'/>
                 <mutationRate        spec='parameter.RealParameter' id='RGSMmutationRate.s:$(n)' value='1.0'        estimate='false'/>
