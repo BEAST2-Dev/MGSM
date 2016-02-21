@@ -11,7 +11,7 @@
             <plugin spec='MultiGammaSiteModel' id="MultiGammaSiteModel.s:$(n)" gammaCategoryCount='4'>
                 <!--substModel will be automatically detected /-->
                 <proportionInvariant spec='parameter.RealParameter' id='MGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='true'/>
-                <mutationRate        spec='parameter.RealParameter' id='MGSMMutationRate.s:$(n)' value='1.0'        estimate='false'/>
+                <mutationRate        spec='parameter.RealParameter' id='MGSMMutationRate.s:$(n)' value='1.0'        estimate='true'/>
                 <shapes              spec='parameter.RealParameter' id='MGSMgammaShape.s:$(n)' value='1.0'         estimate='true'/>
             </plugin>
 	    	        
