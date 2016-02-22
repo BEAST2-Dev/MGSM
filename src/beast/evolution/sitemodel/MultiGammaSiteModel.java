@@ -24,7 +24,7 @@ public class MultiGammaSiteModel extends SiteModel {
 	}
 	
 	@Override
-	public void initAndValidate() throws Exception {
+	public void initAndValidate() {
         shapesParameter = shapesParameterInput.get();
         super.initAndValidate();
         

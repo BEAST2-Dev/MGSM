@@ -25,7 +25,7 @@ public class MultiGammaSiteModelPrior extends Distribution {
 	Parameter<?> shapesParameter;
 	
 	@Override
-	public void initAndValidate() throws Exception {
+	public void initAndValidate() {
 		shapesParameter = shapesParameterInput.get();
 		tree = treeInput.get();
     	if (shapesParameter.getDimension() != tree.getNodeCount()) {
@@ -39,7 +39,7 @@ public class MultiGammaSiteModelPrior extends Distribution {
 	}
 	
 	
-    public double calculateLogP() throws Exception {
+    public double calculateLogP() {
         logP = 0;
         Node root = tree.getRoot();
         final double x;

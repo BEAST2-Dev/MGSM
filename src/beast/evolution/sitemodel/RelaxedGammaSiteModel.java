@@ -3,6 +3,7 @@ package beast.evolution.sitemodel;
 
 import java.io.PrintStream;
 
+import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.GammaDistribution;
 import org.apache.commons.math.distribution.GammaDistributionImpl;
 
@@ -47,7 +48,7 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
 	}
 	
 	@Override
-	public void initAndValidate() throws Exception {
+	public void initAndValidate() {
         //shapesParameter = shapesParameterInput.get();
         super.initAndValidate();
         
@@ -80,7 +81,11 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
         rates = new double[categories.getDimension()];
         storedRates = new double[categories.getDimension()];
         for (int i = 0; i < rates.length; i++) {
-            rates[i] = distribution.inverseCumulativeProbability((i + 0.5) / rates.length);
+            try {
+				rates[i] = distribution.inverseCumulativeProbability((i + 0.5) / rates.length);
+			} catch (MathException e) {
+				throw new IllegalArgumentException(e);
+			}
         }
         System.arraycopy(rates, 0, storedRates, 0, rates.length);
         //normalize = normalizeInput.get();
