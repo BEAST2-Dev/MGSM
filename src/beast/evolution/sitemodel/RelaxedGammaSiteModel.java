@@ -318,7 +318,7 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
     }
 
 	@Override
-	public void init(PrintStream out) throws Exception {
+	public void init(PrintStream out) {
 		for (int i = 0; i < tree.getNodeCount() - 1; i++) {
 			out.append("shape" + (i+1) + "\t");
 		}
