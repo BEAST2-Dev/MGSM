@@ -57,10 +57,10 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
             throw new RuntimeException("RelaxedGammaSiteModel: Invalid category count (" + categoryCount + "). Should be at least 2");
         }
 
-        if (!Boolean.valueOf(System.getProperty("java.only"))) {
-        	Log.warning.println("MultiGammaSiteModel is java-only");
-        	System.setProperty("java.only", "true");
-        }
+//        if (!Boolean.valueOf(System.getProperty("java.only"))) {
+//        	Log.warning.println("MultiGammaSiteModel is java-only");
+//        	System.setProperty("java.only", "true");
+//        }
 	
         tree = treeInput.get();
 
@@ -265,9 +265,11 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
 
         final double mu = muParameter.getValue();//(muParameter != null) ? muParameter.getValue() : 1.0;
 
-        final double[] rates = new double[categoryRates.length];
-        for (int i = 0; i < rates.length; i++) {
-            rates[i] = categoryRates[node.getNr()][i] * mu;
+        final double[] rates = new double[categoryCount];
+        if (ratesKnown) {
+        	for (int i = 0; i < rates.length; i++) {
+        		rates[i] = categoryRates[node.getNr()][i] * mu;
+        	}
         }
 
         return rates;
@@ -352,4 +354,9 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
 		Node [] node = tree.getNodesAsArray();
 		return getShapeParameterForBranch(node[iDim]);
 	}
+	
+    @Override
+    public boolean hasNodeIndependentCategories() {
+    	return false;
+    }
 }

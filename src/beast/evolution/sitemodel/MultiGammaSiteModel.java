@@ -34,10 +34,10 @@ public class MultiGammaSiteModel extends SiteModel {
             throw new RuntimeException("MultiGammaSiteModel: Invalid category count (" + categoryCount + "). Should be at least 2");
         }
         
-        if (!Boolean.valueOf(System.getProperty("java.only"))) {
-        	Log.warning.println("MultiGammaSiteModel is java-only");
-        	System.setProperty("java.only", "true");
-        }
+//        if (!Boolean.valueOf(System.getProperty("java.only"))) {
+//        	Log.warning.println("MultiGammaSiteModel is java-only");
+//        	System.setProperty("java.only", "true");
+//        }
         
         if (invarParameter.getValue() > 0) {
         	categoryCount += 1;
@@ -169,7 +169,7 @@ public class MultiGammaSiteModel extends SiteModel {
 
         final double mu = muParameter.getValue();//(muParameter != null) ? muParameter.getValue() : 1.0;
 
-        final double[] rates = new double[categoryRates.length];
+        final double[] rates = new double[categoryCount];
         for (int i = 0; i < rates.length; i++) {
             rates[i] = categoryRates[node.getNr()][i] * mu;
         }
@@ -184,4 +184,9 @@ public class MultiGammaSiteModel extends SiteModel {
         return true;
     }
 
+    
+    @Override
+    public boolean hasNodeIndependentCategories() {
+    	return false;
+    }
 }
