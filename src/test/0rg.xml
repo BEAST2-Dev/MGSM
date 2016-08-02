@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="" version="2.4">
+
+
+    <data
+id="0"
+dataType="aminoacid"
+name="alignment">
+                    <sequence taxon="seq1" totalcount="20" value="M-------------------STG-------------------------------------------------------------------------AGSGT------------------------------TK----------GGRGKP----------------------------------------------------------------------KATKSVSRSSKAGLQFPVGR------IARFLKSG-KYAERVGAGAPVYLSAVLEYLAAEVLELAGNAARDNKKTRIVPRHIQLAVRNDEELSKLLGSVTIANGGVLPNIHQTLLPSKVGKNKGDIG------------------SASQEF-"/>
+                    <sequence taxon="seq2" totalcount="20" value="M---------------------------------------------------------------------------------------------IDTCASR------------------------------ASAADREQTRAPGSRSRRHHGTARLCRSQPPLQHLAFSYSRLIPCDTALCVAPALVSLLCRRRVYRCGCCFSRGRSLAFSLEAFSTMAPKGKAKSRSSKAGLQFPVGR------VHRYLRDG-GYAERIGAGAPVYLAAVMEYLTAEVLELAGNAARDNKKTRIIPRHIQLAIRNDEELNKLLADVTIASGGVLPNIHAVLLPKKKAKGE-----------------------------"/>
+                    <sequence taxon="seq3" totalcount="20" value="M---------------------------------------------------------------------------------------------IDTCASR------------------------------AAAADREQTRAPGSRSRRHHGTARLCRSQPLLQHLAFSYSRLIPCDTALCVAPALVSLLCRRRVYRCGCCFSRGRSLAFSLEAFSTMAPKGKAKSRSSKAGLQFPVGR------VHRYLRDG-GYAERIGAGAPVYLAAVMEYLTAEVLELAGNAARDNKKTRIIPRHIQLAIRNDEELNKLLADVTIASGGVLPNIHAVLLPKKKAKGE-----------------------------"/>
+                    <sequence taxon="seq4" totalcount="20" value="MWLCDWAKEPEVSFFDSYKISAGN---THTCFP-------------TRGR--------------LL---------------PVFLGSFLHSVSLVDKMSAK------------------------------GK----------GGRAK-----------------------------------------------------------------------KSGKSSSKSAKAGLQFPVGR------IGRYLKKG-RYAKRVGAGAPVYMAAVLEYLCAEILELAGNAARDHKKTRIIPRHIQLAVRNDEELSKFLGGVTIASGGVMPNVHSVLLPKKSKGKKSQ---------------------------"/>
+                    <sequence taxon="seq5" totalcount="20" value="M------------------------------------------------------------------------------------------------AGGK------------------------------GK----------SSSDKS--------------------------------------------------------------------KMVSGGAKSRSQRAGLQFPVGR------VHRLLRKG-NYAQRVGAGAPVYLAAVLEYLAAEILELAGNAARDNKKTRIIPRHLQLAIRNDEELNKLLGAVTIAQGGVLPNIHNVLLPKKTKGGKPGE-----------------------ELM"/>
+                    <sequence taxon="seq6" totalcount="20" value="M------------------------------------------------------------------------------------------------AGGK------------------------------GK----------SSSDKS--------------------------------------------------------------------KMVSGGAKSRSQRAGLQFPVGR------VHRLLRKG-NYAQRVGAGAPVYLAAVLEYLAAEILELAGNAARDNKKTRIIPRHLQLAIRNDEELNKLLGAVTIAQGGVLPNIHNVLLPKKVKGGKPGDI---------AG-------SQSQEY-"/>
+                    <sequence taxon="seq7" totalcount="20" value="M---NWKKE-----------SCSNRILSVLSLP-------VCDIDWTNNRWWPFVWPIIDRIADLLDKQNSASKFSLIDRFPSYIYYYLDL--DKINMSGK------------------------------GK----------GGRGN-----------------------------------------------------------------------VEGKTMSRSARAGITFPVGR------MARYMRDM-RVADRIGAGAPVYLAAVIEYLTAEILELAGNAAQDSKKNRVVPRHIQLAVRNDEELNALFGNVTIASGGVIPFVHSELLPDKKEDEEDDSE-EKE--DKEDA-------E------"/>
+                    <sequence taxon="seq8" totalcount="20" value="M-----------HIFSS----------QLTSFPQLVLYLRTPRLRRTRAH--------------LVH--------SL--AIPTSNTSSSHS-SYPPNMSGK------------------------------GK----------GGRG--------------------------------------------------------------------------KKSTSKSSKAGLQFPVAR------IGRYLKRG-KYATRVGAGAPVYLAAVLEYLTAEVLELAGNAARDNKKARIIPRHIQLAVRNDEELNKLLGEVTIASGGVLPNIHAVLLPKKSSVGKAKAS-A----------------SASQDY-"/>
+                    <sequence taxon="seq9" totalcount="20" value="M--------------------------------------------------------------------------------------------SRNMPGGK------------------------------GKG--------KGGRG------------------------------------------------------------------------DKKQTTSSSSKAGLQFPVGR------IGRYLRQG-KYATRMGAGAPVYLAAVLEYLCAEILELAGNAARDNKKSRIVPRHITLAVKNDEELNKLLGNVTIAAGGVLPNIHAILLPKKTIKTKGP----------------------SQDY-"/>
+                    <sequence taxon="seq0" totalcount="20" value="-------------------------------------------------------------------------------------------------MSGK------------------------------GK----------GGRG-------------------------------------------------------------------------EKKQTSSSAKAGLQFPVGR------IGRYLRQG-KYATRMGAGAPVYLAAVLEYLCAEILELAGNAARDNKKSRIVPRHITLAVKNDEELNKLLGGVTIAAGGVLPNIHAVLLPKKSSVSK-----------------------------"/>
+                </data>
+
+
+    
+
+
+    
+
+
+    
+<map name="Uniform" >beast.math.distributions.Uniform</map>
+<map name="Exponential" >beast.math.distributions.Exponential</map>
+<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
+<map name="Normal" >beast.math.distributions.Normal</map>
+<map name="Beta" >beast.math.distributions.Beta</map>
+<map name="Gamma" >beast.math.distributions.Gamma</map>
+<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
+<map name="prior" >beast.math.distributions.Prior</map>
+<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
+<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+
+
+<run id="mcmc" spec="MCMC" chainLength="10000">
+    <state id="state" storeEvery="5000">
+        <tree id="Tree.t:0" name="stateNode">
+            <taxonset id="TaxonSet.0" spec="TaxonSet">
+                <alignment idref="0"/>
+            </taxonset>
+        </tree>
+        <parameter id="birthRate.t:0" name="stateNode">1.0</parameter>
+        <parameter id="ucldStdev.c:0" lower="0.0" name="stateNode">0.1</parameter>
+        <stateNode id="rateCategories.c:0" spec="parameter.IntegerParameter" dimension="222">1</stateNode>
+        <parameter id="RGSMucldMeanGamma.s:0" name="stateNode">1.0</parameter>
+        <parameter id="RGSMucldStdevGamma.s:0" lower="0.0" name="stateNode" upper="5.0">0.5</parameter>
+        <stateNode id="RGSMrateCategoriesGamma.s:0" spec="parameter.IntegerParameter" dimension="223">1</stateNode>
+    </state>
+
+    <init id="RandomTree.t:0" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:0" taxa="@0">
+        <populationModel id="ConstantPopulation0.t:0" spec="ConstantPopulation">
+            <parameter id="randomPopSize.t:0" name="popSize">1.0</parameter>
+        </populationModel>
+    </init>
+
+    <distribution id="posterior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="util.CompoundDistribution">
+            <distribution id="YuleModel.t:0" spec="beast.evolution.speciation.YuleModel" birthDiffRate="@birthRate.t:0" tree="@Tree.t:0"/>
+            <prior id="RGSMMeanPrior.s:0" name="distribution" x="@RGSMucldMeanGamma.s:0">
+                <Exponential id="Exponential.0" name="distr">
+                    <parameter id="RealParameter.0" lower="0.0" name="mean" upper="0.0">1.0</parameter>
+                </Exponential>
+            </prior>
+            <prior id="RGSMStdDevPrior.s:0" name="distribution" x="@RGSMucldStdevGamma.s:0">
+                <Exponential id="Exponential.01" name="distr">
+                    <parameter id="RealParameter.01" lower="0.0" name="mean" upper="0.0">0.33</parameter>
+                </Exponential>
+            </prior>
+            <distribution id="RelaxedGammaSiteModelPrior.s:0" spec="MultiGammaSiteModelPrior" shapes="@RGSMrateCategoriesGamma.s:0" tree="@Tree.t:0"/>
+            <prior id="YuleBirthRatePrior.t:0" name="distribution" x="@birthRate.t:0">
+                <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
+            </prior>
+            <prior id="ucldStdevPrior.c:0" name="distribution" x="@ucldStdev.c:0">
+                <Gamma id="Gamma.0" name="distr">
+                    <parameter id="RealParameter.02" estimate="false" name="alpha">0.5396</parameter>
+                    <parameter id="RealParameter.03" estimate="false" name="beta">0.3819</parameter>
+                </Gamma>
+            </prior>
+        </distribution>
+        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+            <distribution id="treeLikelihood.0" spec="MGSMBeagleTreeLikelihood" data="@0" tree="@Tree.t:0">
+                <siteModel id="RelaxedGammaSiteModel.s:0" spec="RelaxedGammaSiteModel" gammaCategoryCount="4" rateCategories="@RGSMrateCategoriesGamma.s:0" tree="@Tree.t:0">
+                    <LogNormal id="LogNormalDistributionModelGamma.c:atpB_3" M="@RGSMucldMeanGamma.s:0" S="@RGSMucldStdevGamma.s:0" meanInRealSpace="true" name="distr"/>
+                    <parameter id="RGSMmutationRate.s:0" estimate="false" name="mutationRate">1.0</parameter>
+                    <parameter id="RGSMproportionInvariant.s:0" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="WAG.s:0" spec="WAG"/>
+                </siteModel>
+                <branchRateModel id="RelaxedClock.c:0" spec="beast.evolution.branchratemodel.UCRelaxedClockModel" rateCategories="@rateCategories.c:0" tree="@Tree.t:0">
+                    <LogNormal id="LogNormalDistributionModel.c:0" S="@ucldStdev.c:0" meanInRealSpace="true" name="distr">
+                        <parameter id="RealParameter.04" estimate="false" lower="0.0" name="M" upper="1.0">1.0</parameter>
+                    </LogNormal>
+                    <parameter id="ucldMean.c:0" estimate="false" name="clock.rate">1.0</parameter>
+                </branchRateModel>
+            </distribution>
+            <distribution idref='treeLikelihood.1' usejava="true"/>
+        </distribution>
+        <distribution id="fossilCalibrations" spec="util.CompoundDistribution"/>
+    </distribution>
+
+    <operator id="YuleBirthRateScaler.t:0" spec="ScaleOperator" parameter="@birthRate.t:0" scaleFactor="0.75" weight="3.0"/>
+
+    <operator id="YuleModelTreeScaler.t:0" spec="ScaleOperator" scaleFactor="0.5" tree="@Tree.t:0" weight="3.0"/>
+
+    <operator id="YuleModelTreeRootScaler.t:0" spec="ScaleOperator" rootOnly="true" scaleFactor="0.5" tree="@Tree.t:0" weight="3.0"/>
+
+    <operator id="YuleModelUniformOperator.t:0" spec="Uniform" tree="@Tree.t:0" weight="30.0"/>
+
+    <operator id="YuleModelSubtreeSlide.t:0" spec="SubtreeSlide" tree="@Tree.t:0" weight="15.0"/>
+
+    <operator id="YuleModelNarrow.t:0" spec="Exchange" tree="@Tree.t:0" weight="15.0"/>
+
+    <operator id="YuleModelWide.t:0" spec="Exchange" isNarrow="false" tree="@Tree.t:0" weight="3.0"/>
+
+    <operator id="YuleModelWilsonBalding.t:0" spec="WilsonBalding" tree="@Tree.t:0" weight="3.0"/>
+
+    <operator id="ucldStdevScaler.c:0" spec="ScaleOperator" parameter="@ucldStdev.c:0" scaleFactor="0.5" weight="3.0"/>
+
+    <operator id="CategoriesRandomWalk.c:0" spec="IntRandomWalkOperator" parameter="@rateCategories.c:0" weight="10.0" windowSize="1"/>
+
+    <operator id="CategoriesSwapOperator.c:0" spec="SwapOperator" intparameter="@rateCategories.c:0" weight="10.0"/>
+
+    <operator id="CategoriesUniform.c:0" spec="UniformOperator" parameter="@rateCategories.c:0" weight="10.0"/>
+
+    <operator id="RGSMucldMeanGammaScaler.s:0" spec="ScaleOperator" parameter="@RGSMucldMeanGamma.s:0" scaleFactor="0.5" weight="0.1"/>
+
+    <operator id="RGSMucldStdevGammaScaler.s:0" spec="ScaleOperator" parameter="@RGSMucldStdevGamma.s:0" scaleFactor="0.5" weight="0.3"/>
+
+    <operator id="RGSMCategoriesRandomWalkGamma.s:0" spec="IntRandomWalkOperator" parameter="@RGSMrateCategoriesGamma.s:0" weight="10.0" windowSize="1"/>
+
+    <operator id="RGSMCategoriesSwapGammaOperator.s:0" spec="SwapOperator" intparameter="@RGSMrateCategoriesGamma.s:0" weight="10.0"/>
+
+    <operator id="RGSMCategoriesUniformGamma.s:0" spec="UniformOperator" parameter="@RGSMrateCategoriesGamma.s:0" weight="10.0"/>
+
+    <logger id="tracelog" fileName="0rg.log" logEvery="100" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <log idref="posterior"/>
+        <log idref="likelihood"/>
+        
+
+        <log idref="prior"/>
+        <log idref="treeLikelihood.0"/>
+        <log id="treeLikelihood.1" spec="TreeLikelihood" data="@0" tree="@Tree.t:0">
+            <siteModel id="RelaxedGammaSiteModel.s:1" spec="RelaxedGammaSiteModel" gammaCategoryCount="4" rateCategories="@RGSMrateCategoriesGamma.s:0" tree="@Tree.t:0">
+                <distr idref="LogNormalDistributionModelGamma.c:atpB_3"/>
+                <mutationRate idref="RGSMmutationRate.s:0"/>
+                <proportionInvariant idref="RGSMproportionInvariant.s:0"/>
+                <substModel idref="WAG.s:0"/>
+            </siteModel>
+            <branchRateModel idref="RelaxedClock.c:0"/>
+        </log>
+        <log id="TreeHeight.t:0" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:0"/>
+        <log idref="YuleModel.t:0"/>
+        <log idref="birthRate.t:0"/>
+        <log idref="ucldStdev.c:0"/>
+        <log id="rate.c:0" spec="beast.evolution.branchratemodel.RateStatistic" branchratemodel="@RelaxedClock.c:0" tree="@Tree.t:0"/>
+        <log idref="RGSMucldMeanGamma.s:0"/>
+        <log idref="RGSMucldStdevGamma.s:0"/>
+    </logger>
+
+    <logger id="screenlog" logEvery="1000">
+        <log idref="posterior"/>
+        <log id="ESS.0" spec="util.ESS" arg="@posterior"/>
+        <log idref="likelihood"/>
+        <log idref="prior"/>
+    </logger>
+
+    <logger id="treelog.t:0" fileName="0rg.trees" logEvery="10000" mode="tree">
+        <log id="TreeWithMetaDataLogger.t:0" spec="beast.evolution.tree.TreeWithMetaDataLogger" branchratemodel="@RelaxedClock.c:0" tree="@Tree.t:0">
+            <metadata idref="RelaxedGammaSiteModel.s:0"/>
+        </log>
+    </logger>
+
+</run>
+
+</beast>
