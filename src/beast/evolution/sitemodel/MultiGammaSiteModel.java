@@ -8,6 +8,7 @@ import beast.core.Input;
 import beast.core.Input.Validate;
 import beast.core.parameter.RealParameter;
 import beast.core.util.Log;
+import beast.evolution.likelihood.MGSMBeagleTreeLikelihood;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 
@@ -34,10 +35,20 @@ public class MultiGammaSiteModel extends SiteModel {
             throw new RuntimeException("MultiGammaSiteModel: Invalid category count (" + categoryCount + "). Should be at least 2");
         }
         
-//        if (!Boolean.valueOf(System.getProperty("java.only"))) {
-//        	Log.warning.println("MultiGammaSiteModel is java-only");
-//        	System.setProperty("java.only", "true");
-//        }
+        
+        boolean hasMGSMBeagleLikelihood = false;
+        for (Object o : getOutputs()) {
+        	if (o instanceof MGSMBeagleTreeLikelihood) {
+        		hasMGSMBeagleLikelihood = true;
+        		break;
+        	}
+        }
+        if (!hasMGSMBeagleLikelihood) {
+	        if (!Boolean.valueOf(System.getProperty("java.only"))) {
+	        	Log.warning.println("MultiGammaSiteModel is java-only -- unless you use MGSMBeagleTreeLikelihood");
+	        	System.setProperty("java.only", "true");
+	        }
+        }
         
         if (invarParameter.getValue() > 0) {
         	categoryCount += 1;

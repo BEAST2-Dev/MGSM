@@ -14,6 +14,7 @@ import beast.core.Loggable;
 import beast.core.Input.Validate;
 import beast.core.parameter.IntegerParameter;
 import beast.core.util.Log;
+import beast.evolution.likelihood.MGSMBeagleTreeLikelihood;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
 import beast.math.distributions.ParametricDistribution;
@@ -57,10 +58,19 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
             throw new RuntimeException("RelaxedGammaSiteModel: Invalid category count (" + categoryCount + "). Should be at least 2");
         }
 
-//        if (!Boolean.valueOf(System.getProperty("java.only"))) {
-//        	Log.warning.println("MultiGammaSiteModel is java-only");
-//        	System.setProperty("java.only", "true");
-//        }
+        boolean hasMGSMBeagleLikelihood = false;
+        for (Object o : getOutputs()) {
+        	if (o instanceof MGSMBeagleTreeLikelihood) {
+        		hasMGSMBeagleLikelihood = true;
+        		break;
+        	}
+        }
+        if (!hasMGSMBeagleLikelihood) {
+	        if (!Boolean.valueOf(System.getProperty("java.only"))) {
+	        	Log.warning.println("MultiGammaSiteModel is java-only -- unless you use MGSMBeagleTreeLikelihood");
+	        	System.setProperty("java.only", "true");
+	        }
+        }
 	
         tree = treeInput.get();
 
