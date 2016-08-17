@@ -125,11 +125,10 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
         eigenCount = 1;//this.branchSubstitutionModel.getEigenCount();
 
         double[] categoryRates = null; 
-        if (m_siteModel.hasNodeIndependentCategories()) {
-        	categoryRates = m_siteModel.getCategoryRates(null);
-        }
-        // check for invariant rates category
-        if (m_siteModel.hasPropInvariantCategory && m_siteModel.hasNodeIndependentCategories()) {
+       	categoryRates = m_siteModel.getCategoryRates(null);
+
+       	// check for invariant rates category
+       	if (m_siteModel.hasPropInvariantCategory && m_siteModel.hasNodeIndependentCategories()) {
 	        for (int i = 0; i < categoryRates.length; i++) {
 	        	if (categoryRates[i] == 0) {
 	        		proportionInvariant = m_siteModel.getRateForCategory(i, null);
@@ -159,12 +158,12 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
 	        	constantPattern = null;
 	        	categoryRates = m_siteModel.getCategoryRates(null);
 	        }
-        }        
+       	}
 
         this.categoryCount = m_siteModel.getCategoryCount() - (invariantCategory >= 0 ? 1 : 0);
-        if (m_siteModel.hasPropInvariantCategory && !m_siteModel.hasNodeIndependentCategories()) {
-        	this.categoryCount++;
-        }
+//        if (m_siteModel.hasPropInvariantCategory && !m_siteModel.hasNodeIndependentCategories()) {
+//        	this.categoryCount++;
+//        }
         
         tipCount = treeInput.get().getLeafNodeCount();
 
@@ -562,7 +561,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
             return true;
         }
         if (m_siteModel.isDirtyCalculation()) {
-            if (m_siteModel.hasNodeIndependentCategories()) {
+            if (!m_siteModel.hasNodeIndependentCategories()) {
             	hasDirt = Tree.IS_DIRTY;
             }
             return true;
