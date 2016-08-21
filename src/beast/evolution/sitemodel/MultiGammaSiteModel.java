@@ -196,7 +196,7 @@ public class MultiGammaSiteModel extends SiteModel {
     }
 
     
-    @Override
+    //@Override
     public boolean hasNodeIndependentCategories() {
     	return false;
     }

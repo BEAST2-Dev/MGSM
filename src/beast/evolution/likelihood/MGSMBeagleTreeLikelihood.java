@@ -41,6 +41,7 @@ import beast.evolution.alignment.Alignment;
 import beast.evolution.branchratemodel.StrictClockModel;
 import beast.evolution.likelihood.TreeLikelihood;
 import beast.evolution.sitemodel.SiteModel;
+import beast.evolution.sitemodel.SiteModelInterface.Base;
 import beast.evolution.substitutionmodel.EigenDecomposition;
 import beast.evolution.tree.Node;
 import beast.evolution.tree.Tree;
@@ -128,7 +129,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
        	categoryRates = m_siteModel.getCategoryRates(null);
 
        	// check for invariant rates category
-       	if (m_siteModel.hasPropInvariantCategory && m_siteModel.hasNodeIndependentCategories()) {
+       	if (m_siteModel.hasPropInvariantCategory && hasNodeIndependentCategories(m_siteModel)) {
 	        for (int i = 0; i < categoryRates.length; i++) {
 	        	if (categoryRates[i] == 0) {
 	        		proportionInvariant = m_siteModel.getRateForCategory(i, null);
@@ -373,7 +374,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
         
         currentFreqs = new double[m_nStateCount];
         currentCategoryWeights = new double[categoryCount];
-        if (m_siteModel.hasNodeIndependentCategories()) {
+        if (hasNodeIndependentCategories(m_siteModel)) {
         	beagle.setCategoryRates(categoryRates);
             currentCategoryRates = categoryRates;
         } else {
@@ -385,7 +386,12 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
     }
 
     
-    private static List<Integer> parseSystemPropertyIntegerArray(String propertyName) {
+    private boolean hasNodeIndependentCategories(Base m_siteModel) {
+		return false;
+		// return m_siteModel.hasNodeIndependentCategories();
+	}
+
+	private static List<Integer> parseSystemPropertyIntegerArray(String propertyName) {
         List<Integer> order = new ArrayList<>();
         String r = System.getProperty(propertyName);
         if (r != null) {
@@ -531,7 +537,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
     protected boolean requiresRecalculation() {
         hasDirt = Tree.IS_CLEAN;
         
-        if (m_siteModel.hasNodeIndependentCategories()) {
+        if (hasNodeIndependentCategories(m_siteModel)) {
             double[] categoryRates = m_siteModel.getCategoryRates(null);
 	        if (constantPattern != null) {
 	            double [] tmp = new double [categoryRates.length - 1];
@@ -561,7 +567,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
             return true;
         }
         if (m_siteModel.isDirtyCalculation()) {
-            if (!m_siteModel.hasNodeIndependentCategories()) {
+            if (!hasNodeIndependentCategories(m_siteModel)) {
             	hasDirt = Tree.IS_DIRTY;
             }
             return true;
@@ -685,7 +691,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
         }
 
         if (updateSiteModel) {
-        	if (m_siteModel.hasNodeIndependentCategories()) {
+        	if (hasNodeIndependentCategories(m_siteModel)) {
 	            double[] categoryRates = m_siteModel.getCategoryRates(null);
 	            if (constantPattern != null) {
 		            double [] tmp = new double [categoryRates.length - 1];
@@ -709,7 +715,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
 
         for (int i = 0; i < eigenCount; i++) {
             if (branchUpdateCount[i] > 0) {
-            	if (m_siteModel.hasNodeIndependentCategories()) {
+            	if (hasNodeIndependentCategories(m_siteModel)) {
 	                beagle.updateTransitionMatrices(
 	                        eigenBufferHelper.getOffsetIndex(i),
 	                        matrixUpdateIndices[i],
@@ -949,7 +955,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
         final double branchTime = node.getLength() * branchRate;
         double[] categoryRates = m_siteModel.getCategoryRates(node);
         boolean dirtyCategoryRates = false;
-        if (!node.isRoot() && !m_siteModel.hasNodeIndependentCategories()) {
+        if (!node.isRoot() && !hasNodeIndependentCategories(m_siteModel)) {
 	        for (int k = 0; k < categoryCount; k++) {
 	        	if (currentCategoryRatesPerNode[nodeNum][k] != categoryRates[k]) {
 	        		dirtyCategoryRates = true;
@@ -958,7 +964,7 @@ public class MGSMBeagleTreeLikelihood extends TreeLikelihood {
 	        }
         }
         if (!node.isRoot() && (update != Tree.IS_CLEAN || branchTime != m_branchLengths[nodeNum] || dirtyCategoryRates)) {
-        	if (!m_siteModel.hasNodeIndependentCategories()) {
+        	if (!hasNodeIndependentCategories(m_siteModel)) {
 	            for (int k = 0; k < categoryCount; k++) {
 	            	currentCategoryRatesPerNode[nodeNum][k] = categoryRates[k];
 	            }

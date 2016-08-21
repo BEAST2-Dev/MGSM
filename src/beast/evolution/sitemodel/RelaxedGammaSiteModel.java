@@ -365,7 +365,7 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
 		return getShapeParameterForBranch(node[iDim]);
 	}
 	
-    @Override
+    //@Override
     public boolean hasNodeIndependentCategories() {
     	return false;
     }
