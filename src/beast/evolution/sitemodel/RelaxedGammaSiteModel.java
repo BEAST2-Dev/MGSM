@@ -337,7 +337,7 @@ public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Functi
 	}
 
 	@Override
-	public void log(int nSample, PrintStream out) {
+	public void log(long nSample, PrintStream out) {
 		Node [] node = tree.getNodesAsArray();
 		for (int i = 0; i < tree.getNodeCount() - 1; i++) {
 			out.append(getShapeParameterForBranch(node[i]) + "\t");
