@@ -4,9 +4,9 @@ import java.io.File;
 
 import org.junit.Test;
 
-import beast.core.Logger;
-import beast.util.LogAnalyser;
-import beast.util.XMLParser;
+import beast.base.inference.Logger;
+import beastfx.app.tools.LogAnalyser;
+import beast.base.parser.XMLParser;
 import junit.framework.TestCase;
 
 public class MGSBeagleTreeLikelihoodTest extends TestCase{
@@ -14,7 +14,7 @@ public class MGSBeagleTreeLikelihoodTest extends TestCase{
 	@Test
 	public void testBeagleTreeLikelihood() throws Exception {
         XMLParser parser = new XMLParser();
-        beast.core.Runnable runable = parser.parseFile(new File("src/test/0rg.xml"));
+        beast.base.inference.Runnable runable = parser.parseFile(new File("src/test/0rg.xml"));
         Logger.FILE_MODE = Logger.LogFileMode.overwrite;
         runable.run();
 

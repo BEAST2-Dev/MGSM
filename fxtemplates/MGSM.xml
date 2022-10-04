@@ -1,14 +1,14 @@
 <beast version='2.0'
-       namespace='beast.app.beauti:beast.core:beast.evolution.branchratemodel:beast.evolution.speciation:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood:beast.evolution:beast.math.distributions'>
+       namespace='beast.app.beauti:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.branchratemodel:beast.base.evolution.speciation:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beast.evolution:beast.base.math.distributions'>
 
     <mergewith point='substModelTemplates'>
 
         <!-- site models -->
         
         <!-- multi gamma site model -->
-        <subtemplate id='Multi-Gamma Site Model' class='beast.evolution.sitemodel.MultiGammaSiteModel' mainid='MultiGammaSiteModel.s:$(n)'>
+        <subtemplate id='Multi-Gamma Site Model' class='mgsm.evolution.sitemodel.MultiGammaSiteModel' mainid='MultiGammaSiteModel.s:$(n)'>
             <![CDATA[
-            <plugin spec='MultiGammaSiteModel' id="MultiGammaSiteModel.s:$(n)" gammaCategoryCount='4'>
+            <plugin spec='mgsm.evolution.sitemodel.MultiGammaSiteModel' id="MultiGammaSiteModel.s:$(n)" gammaCategoryCount='4'>
                 <!--substModel will be automatically detected /-->
                 <proportionInvariant spec='parameter.RealParameter' id='MGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='true'/>
                 <mutationRate        spec='parameter.RealParameter' id='MGSMMutationRate.s:$(n)' value='1.0'        estimate='false'/>
@@ -16,14 +16,14 @@
             </plugin>
 	    	        
             <prior id='MGSMMutationRatePrior.s:$(n)' x='@MGSMMutationRate.s:$(n)'><distr spec="OneOnX"/></prior>
-            <prior id='MGSMGammaShapePrior.s:$(n)' x='@MGSMgammaShape.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='1'/></prior>
+            <prior id='MGSMGammaShapePrior.s:$(n)' x='@MGSMgammaShape.s:$(n)'><distr spec="beast.base.inference.distribution.Exponential" mean='1'/></prior>
 
             <operator id='MGSMproportionInvariantScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@MGSMproportionInvariant.s:$(n)"/>
             <operator id='MGSMMutationRateScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@MGSMMutationRate.s:$(n)"/>
             <operator id='MGSMgammaShapeScaler1.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="5.0" parameter="@MGSMgammaShape.s:$(n)" scaleAll="false"/>
             <operator id='MGSMgammaShapeScaler2.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.5" parameter="@MGSMgammaShape.s:$(n)" scaleAll="true"/>
 
-            <distribution id='MGSMMultiGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@MGSMgammaShape.s:$(n)" tree="@Tree.t:$(n)"/>
+            <distribution id='MGSMMultiGammaSiteModelPrior.s:$(n)' spec="mgsm.evolution.sitemodel.MultiGammaSiteModelPrior" shapes="@MGSMgammaShape.s:$(n)" tree="@Tree.t:$(n)"/>
             ]]>
 
             <connect srcID='MGSMMutationRatePrior.s:$(n)'         targetID='prior' inputName='distribution' if='nooperator(FixMeanMutationRatesOperator) and inlikelihood(MGSMMutationRate.s:$(n)) and MGSMMutationRate.s:$(n)/estimate=true'/>
@@ -52,11 +52,11 @@
 
 
         <!-- relaxed gamma site model -->
-        <subtemplate id='Relaxed Gamma Site Model' class='beast.evolution.sitemodel.RelaxedGammaSiteModel' mainid='RelaxedGammaSiteModel.s:$(n)'
-        suppressInputs='beast.evolution.sitemodel.RelaxedGammaSiteModel.tree,
-        beast.evolution.sitemodel.RelaxedGammaSiteModel.distr,
-        beast.evolution.sitemodel.RelaxedGammaSiteModel.rateCategories,
-        beast.evolution.sitemodel.RelaxedGammaSiteModel.shape
+        <subtemplate id='Relaxed Gamma Site Model' class='mgsm.evolution.sitemodel.RelaxedGammaSiteModel' mainid='RelaxedGammaSiteModel.s:$(n)'
+        suppressInputs='mgsm.evolution.sitemodel.RelaxedGammaSiteModel.tree,
+        mgsm.evolution.sitemodel.RelaxedGammaSiteModel.distr,
+        mgsm.evolution.sitemodel.RelaxedGammaSiteModel.rateCategories,
+        mgsm.evolution.sitemodel.RelaxedGammaSiteModel.shape
         '>
             <![CDATA[
             
@@ -65,7 +65,7 @@
             <parameter id="RGSMucldStdevGamma.s:$(n)" lower="0.0" name="stateNode" upper="5.0">0.5</parameter>
             <stateNode dimension="100" id="RGSMrateCategoriesGamma.s:$(n)" spec="parameter.IntegerParameter" value="1"/>
             
-            <plugin spec='RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)">
+            <plugin spec='mgsm.evolution.sitemodel.RelaxedGammaSiteModel' id="RelaxedGammaSiteModel.s:$(n)" gammaCategoryCount='4' rateCategories="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)">
                 <!--substModel will be automatically detected /-->
                 <proportionInvariant spec='parameter.RealParameter' id='RGSMproportionInvariant.s:$(n)' value='0.1' lower='0' upper='1' estimate='true'/>
                 <mutationRate        spec='parameter.RealParameter' id='RGSMmutationRate.s:$(n)' value='1.0'        estimate='false'/>
@@ -73,8 +73,8 @@
             </plugin>
 	    	        
             <prior id='RGSMMutationRatePrior.s:$(n)' x='@RGSMmutationRate.s:$(n)'><distr spec="OneOnX"/></prior>
-            <prior id='RGSMMeanPrior.s:$(n)' x='@RGSMucldMeanGamma.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='1'/></prior>
-            <prior id='RGSMStdDevPrior.s:$(n)' x='@RGSMucldStdevGamma.s:$(n)'><distr spec="beast.math.distributions.Exponential" mean='0.33'/></prior>
+            <prior id='RGSMMeanPrior.s:$(n)' x='@RGSMucldMeanGamma.s:$(n)'><distr spec="beast.base.inference.distribution.Exponential" mean='1'/></prior>
+            <prior id='RGSMStdDevPrior.s:$(n)' x='@RGSMucldStdevGamma.s:$(n)'><distr spec="beast.base.inference.distribution.Exponential" mean='0.33'/></prior>
 
             <operator id='RGSMproportionInvariantScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@RGSMproportionInvariant.s:$(n)"/>
             <operator id='RGSMmutationRateScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@RGSMmutationRate.s:$(n)"/>
@@ -85,7 +85,7 @@
             <operator id="RGSMCategoriesSwapGammaOperator.s:$(n)" spec="SwapOperator" intparameter="@RGSMrateCategoriesGamma.s:$(n)" weight="10.0"/>
             <operator id="RGSMCategoriesUniformGamma.s:$(n)" spec="UniformOperator" parameter="@RGSMrateCategoriesGamma.s:$(n)" weight="10.0"/>
 
-            <distribution id='RelaxedGammaSiteModelPrior.s:$(n)' spec="MultiGammaSiteModelPrior" shapes="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)"/>
+            <distribution id='RelaxedGammaSiteModelPrior.s:$(n)' spec="mgsm.evolution.sitemodel.MultiGammaSiteModelPrior" shapes="@RGSMrateCategoriesGamma.s:$(n)" tree="@Tree.t:$(n)"/>
             ]]>
 
             <connect srcID='RGSMMutationRatePrior.s:$(n)'           targetID='prior' inputName='distribution' if='nooperator(FixMeanMutationRatesOperator) and inlikelihood(RGSMmutationRate.s:$(n)) and RGSMmutationRate.s:$(n)/estimate=true'/>

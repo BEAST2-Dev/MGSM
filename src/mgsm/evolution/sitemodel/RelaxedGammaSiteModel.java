@@ -1,4 +1,4 @@
-package beast.evolution.sitemodel;
+package mgsm.evolution.sitemodel;
 
 
 import java.io.PrintStream;
@@ -7,17 +7,18 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.GammaDistribution;
 import org.apache.commons.math.distribution.GammaDistributionImpl;
 
-import beast.core.Description;
-import beast.core.Function;
-import beast.core.Input;
-import beast.core.Loggable;
-import beast.core.Input.Validate;
-import beast.core.parameter.IntegerParameter;
-import beast.core.util.Log;
-import beast.evolution.likelihood.MGSMBeagleTreeLikelihood;
-import beast.evolution.tree.Node;
-import beast.evolution.tree.Tree;
-import beast.math.distributions.ParametricDistribution;
+import beast.base.core.Description;
+import beast.base.core.Function;
+import beast.base.core.Input;
+import beast.base.core.Loggable;
+import beast.base.core.Input.Validate;
+import beast.base.inference.parameter.IntegerParameter;
+import mgsm.evolution.likelihood.MGSMBeagleTreeLikelihood;
+import beast.base.core.Log;
+import beast.base.evolution.sitemodel.SiteModel;
+import beast.base.evolution.tree.Node;
+import beast.base.evolution.tree.Tree;
+import beast.base.inference.distribution.ParametricDistribution;
 
 @Description("Uncorrelated Relaxed Gamma site model that allows different shape parameters for each branche")
 public class RelaxedGammaSiteModel extends SiteModel implements Loggable, Function  {
